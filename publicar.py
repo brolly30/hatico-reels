@@ -87,5 +87,29 @@ def main():
         sys.exit(1)
 
 
+def guardar_registro():
+    # Sube publicados.csv al repo para no perder el estado si el job se corta
+    import subprocess
+    run = lambda *a: subprocess.run(["git", *a], cwd=BASE, check=False)
+    run("add", "publicados.csv")
+    if run("diff", "--cached", "--quiet").returncode:
+        run("commit", "-q", "-m", "registro de publicaciones")
+        run("pull", "-q", "--rebase")
+        run("push", "-q")
+
+
 if __name__ == "__main__":
-    main()
+    if "--bucle" in sys.argv:
+        # ponytail: el cron de GitHub es poco fiable; el job revisa cada 5 min por ~5.5 h
+        # y el workflow se relanza solo al terminar (limite de GitHub: 6 h por job)
+        fin = time.time() + 5.5 * 3600
+        while time.time() < fin:
+            try:
+                main()
+            except SystemExit:
+                pass
+            guardar_registro()
+            sys.stdout.flush()
+            time.sleep(300)
+    else:
+        main()
