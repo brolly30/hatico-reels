@@ -6,7 +6,7 @@ import csv, json, os, sys, time, urllib.parse, urllib.request
 from datetime import datetime, timedelta, timezone
 
 HORA_INICIO, HORA_FIN = 8, 23            # hora de Republica Dominicana
-MAX_DIAS_INICIALES, DIAS_INICIALES = 10, 2  # arranque suave en cuenta nueva
+MAX_DIAS_INICIALES, DIAS_INICIALES = 10, 4  # arranque suave; subido a 4 dias tras bloqueo de Meta el 26-sep
 MAX_POR_DIA = 30
 MAX_ERRORES = 3                          # tras 3 fallos se salta ese reel
 
@@ -81,21 +81,34 @@ def main():
         log(r["carpeta"], "publicado", pub["id"])
         print(f"publicado {r['carpeta']} ({len(ok) + 1}/{len(reels)})")
     except Exception as e:
-        if not prueba:
+        # Errores de cuenta/token (bloqueo, verificacion, token vencido) no son culpa del reel: no se salta
+        if not prueba and "OAuthException" not in str(e):
             log(r["carpeta"], "error", str(e)[:500])
         print(f"ERROR {r['carpeta']}: {e}")
         sys.exit(1)
 
 
+def git(*a):
+    import subprocess
+    return subprocess.run(["git", *a], cwd=BASE, check=False)
+
+
+def actualizar_registro():
+    # Trae la ultima version de publicados.csv antes de decidir (evita duplicados con estado viejo)
+    if git("pull", "-q", "--rebase", "origin", "main").returncode:
+        git("rebase", "--abort")
+        git("fetch", "-q", "origin", "main")
+        git("reset", "-q", "--hard", "origin/main")
+
+
 def guardar_registro():
     # Sube publicados.csv al repo para no perder el estado si el job se corta
-    import subprocess
-    run = lambda *a: subprocess.run(["git", *a], cwd=BASE, check=False)
+    run = git
     run("add", "publicados.csv")
     if run("diff", "--cached", "--quiet").returncode:
         run("commit", "-q", "-m", "registro de publicaciones")
-        run("pull", "-q", "--rebase")
-        run("push", "-q")
+        run("pull", "-q", "--rebase", "origin", "main")
+        run("push", "-q", "origin", "HEAD:main")
 
 
 if __name__ == "__main__":
@@ -104,6 +117,7 @@ if __name__ == "__main__":
         # y el workflow se relanza solo al terminar (limite de GitHub: 6 h por job)
         fin = time.time() + 5.5 * 3600
         while time.time() < fin:
+            actualizar_registro()
             try:
                 main()
             except SystemExit:
