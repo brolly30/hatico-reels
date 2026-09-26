@@ -7,18 +7,3 @@ fecha,carpeta,estado,detalle
 2026-09-25T22:02:33-04:00,006_2021-08-21_CS26mNxgg17,publicado,18368983438212416
 2026-09-26T08:03:52-04:00,007_2021-09-03_CTYHq6UJ58R,publicado,18010625324962947
 2026-09-26T09:29:27-04:00,018_2022-08-05_Cg4quqNgKg-,publicado,18115774208001778
-2026-09-26T15:17:08-04:00,019_2022-08-05_Cg5HDedJzjg,error,"400 {""error"":{""message"":""API access blocked."",""type"":""OAuthException"",""code"":200,""fbtrace_id"":""A9jeM0yKf5Q_BK7eHhsCAJc""}}"
-2026-09-26T15:22:19-04:00,019_2022-08-05_Cg5HDedJzjg,error,"400 {""error"":{""message"":""API access blocked."",""type"":""OAuthException"",""code"":200,""fbtrace_id"":""A361oGaixQaNs-S81Xi6ZC8""}}"
-2026-09-26T15:27:20-04:00,019_2022-08-05_Cg5HDedJzjg,error,"400 {""error"":{""message"":""API access blocked."",""type"":""OAuthException"",""code"":200,""fbtrace_id"":""AmGFx2vy4RoBDLKElCkcWT4""}}"
-2026-09-26T15:32:22-04:00,020_2022-08-22_ChkPSbggRP9,error,"400 {""error"":{""message"":""API access blocked."",""type"":""OAuthException"",""code"":200,""fbtrace_id"":""A_VZPm6pt3uFNwAsdHvYiHB""}}"
-2026-09-26T15:37:24-04:00,020_2022-08-22_ChkPSbggRP9,error,"400 {""error"":{""message"":""API access blocked."",""type"":""OAuthException"",""code"":200,""fbtrace_id"":""Ad-ed0FdTH0mQezHsgSA0hq""}}"
-2026-09-26T15:42:26-04:00,020_2022-08-22_ChkPSbggRP9,error,"400 {""error"":{""message"":""API access blocked."",""type"":""OAuthException"",""code"":200,""fbtrace_id"":""ApBIpgvr_4-JGTFblunR0QV""}}"
-2026-09-26T15:47:28-04:00,021_2022-08-26_ChurFcoAdeL,error,"400 {""error"":{""message"":""API access blocked."",""type"":""OAuthException"",""code"":200,""fbtrace_id"":""AnVZ7HDLhjvsN9u83txEi7I""}}"
-2026-09-26T15:52:29-04:00,021_2022-08-26_ChurFcoAdeL,error,"400 {""error"":{""message"":""API access blocked."",""type"":""OAuthException"",""code"":200,""fbtrace_id"":""AUtmfydQZURRDSoWT-3u9Z2""}}"
-2026-09-26T15:57:31-04:00,021_2022-08-26_ChurFcoAdeL,error,"400 {""error"":{""message"":""API access blocked."",""type"":""OAuthException"",""code"":200,""fbtrace_id"":""AZS9sJHUKHyC1qRo6Mxqxk7""}}"
-2026-09-26T16:02:33-04:00,022_2022-09-23_Ci2tq3LAc7_,error,"400 {""error"":{""message"":""API access blocked."",""type"":""OAuthException"",""code"":200,""fbtrace_id"":""AkPdUm495SNHAnDtvTs0tsG""}}"
-2026-09-26T16:07:35-04:00,022_2022-09-23_Ci2tq3LAc7_,error,"400 {""error"":{""message"":""API access blocked."",""type"":""OAuthException"",""code"":200,""fbtrace_id"":""AByV8LK5lbfo2m8ZdYafvXn""}}"
-2026-09-26T16:12:37-04:00,022_2022-09-23_Ci2tq3LAc7_,error,"400 {""error"":{""message"":""API access blocked."",""type"":""OAuthException"",""code"":200,""fbtrace_id"":""AeWMyVKNVpAniS_YWagu6Rv""}}"
-2026-09-26T16:17:39-04:00,023_2022-09-26_Ci-IkSgA3zj,error,"400 {""error"":{""message"":""API access blocked."",""type"":""OAuthException"",""code"":200,""fbtrace_id"":""Ani3P4prVXDiaMjhikcAequ""}}"
-2026-09-26T16:22:41-04:00,023_2022-09-26_Ci-IkSgA3zj,error,"400 {""error"":{""message"":""API access blocked."",""type"":""OAuthException"",""code"":200,""fbtrace_id"":""A9o-gkNUVM-LgadPqVRbuwj""}}"
-2026-09-26T16:27:42-04:00,023_2022-09-26_Ci-IkSgA3zj,error,"400 {""error"":{""message"":""API access blocked."",""type"":""OAuthException"",""code"":200,""fbtrace_id"":""AJOajKk9To1UxfRnJVsiC4t""}}"
