@@ -6,7 +6,7 @@ import csv, json, os, sys, time, urllib.parse, urllib.request
 from datetime import datetime, timedelta, timezone
 
 HORA_INICIO, HORA_FIN = 8, 23            # hora de Republica Dominicana
-MAX_DIAS_INICIALES, DIAS_INICIALES = 10, 4  # arranque suave; subido a 4 dias tras bloqueo de Meta el 26-sep
+RITMO = [10, 10, 20]  # maximo por dia en los primeros dias (25-sep, 26-sep, 27-sep); despues MAX_POR_DIA
 MAX_POR_DIA = 30
 MAX_ERRORES = 3                          # tras 3 fallos se salta ese reel
 
@@ -42,7 +42,7 @@ def main():
 
     if not prueba:
         dias_previos = {h["fecha"][:10] for h in ok} - {hoy}
-        maximo = MAX_DIAS_INICIALES if len(dias_previos) < DIAS_INICIALES else MAX_POR_DIA
+        maximo = RITMO[len(dias_previos)] if len(dias_previos) < len(RITMO) else MAX_POR_DIA
         if not HORA_INICIO <= now.hour < HORA_FIN:
             return print("fuera de horario")
         if sum(h["fecha"][:10] == hoy for h in ok) >= maximo:
