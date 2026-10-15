@@ -68,9 +68,7 @@
     width: 96px; height: 18px; border-radius: 9px; background: #c7ccd6;
     box-shadow: inset 0 2px 4px rgba(0,0,0,.35); z-index: 5;
   }
-  .ondas { position: absolute; left: 0; width: 100%; z-index: 1; pointer-events: none; }
-  .ondas.arriba { top: 0; }
-  .ondas.abajo { bottom: 0; }
+  .fondo-svg { position: absolute; top: 0; left: 0; width: 460px; height: 1040px; z-index: 0; pointer-events: none; }
   .contenido { position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; align-items: center; }
 
   /* Logo */
@@ -90,13 +88,6 @@
   .frente { background: linear-gradient(180deg, #fff 0%, #f3f6fc 55%, #e9eef8 100%); }
   .frente .contenido { padding-top: 76px; }
   .frente .lema { color: var(--azul); margin: -6px 0 0 70px; }
-  .mapa {
-    position: absolute; inset: 160px 0 auto 0; height: 380px; z-index: 1; opacity: .55;
-    background-image: radial-gradient(#a9bbe0 1.3px, transparent 1.6px);
-    background-size: 9px 9px;
-    -webkit-mask-image: radial-gradient(ellipse 60% 45% at 30% 50%, #000 40%, transparent 70%), radial-gradient(ellipse 35% 40% at 85% 55%, #000 40%, transparent 70%);
-    mask-image: radial-gradient(ellipse 60% 45% at 30% 50%, #000 40%, transparent 70%), radial-gradient(ellipse 35% 40% at 85% 55%, #000 40%, transparent 70%);
-  }
   .foto {
     width: 256px; height: 256px; margin-top: 12px; border-radius: 12px; overflow: hidden;
     border: 4px solid var(--azul); background: #cfd7e6; box-shadow: 0 4px 12px rgba(0,0,0,.2);
@@ -105,15 +96,12 @@
   .foto img { width: 100%; height: 100%; object-fit: cover; }
   .banda-nombre {
     margin-top: 10px; width: 404px; padding: 10px 14px 8px; text-align: center;
-    background: linear-gradient(180deg, var(--azul-claro), var(--azul) 60%, var(--azul-osc));
     color: #fff; font-weight: 900; font-size: 29px; line-height: 1.08; text-transform: uppercase;
-    clip-path: polygon(3% 0, 100% 0, 97% 100%, 0 100%);
+    filter: drop-shadow(0 3px 4px rgba(6,26,82,.35));
   }
   .banda-cargo {
     width: 350px; padding: 7px 10px; text-align: center; margin-top: -2px;
-    background: linear-gradient(180deg, #ff2a33, var(--rojo-osc));
-    color: #fff; font-weight: 800; font-size: 19px; text-transform: uppercase;
-    clip-path: polygon(0 0, 100% 0, 96% 100%, 4% 100%);
+    color: #fff; font-weight: 800; font-size: 19px; text-transform: uppercase; position: relative; z-index: 1;
   }
   .datos { width: 400px; margin-top: 12px; }
   .dato { display: flex; align-items: center; gap: 14px; padding: 6px 0; border-bottom: 1.5px solid #c6cfdf; }
@@ -133,12 +121,9 @@
   }
   .pie-frente {
     margin-top: 10px; width: 410px; padding: 6px 10px; text-align: center; color: #fff; position: relative; z-index: 3;
-    background: linear-gradient(180deg, #ff2a33, var(--rojo-osc));
-    clip-path: polygon(2% 0, 100% 0, 98% 100%, 0 100%);
   }
   .pie-frente .t1 { font-weight: 800; font-size: 19px; }
   .pie-frente .t2 { font-weight: 700; font-size: 13px; letter-spacing: .3px; }
-  .bandera { position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%); width: 46px; height: 32px; z-index: 3; box-shadow: 0 1px 3px rgba(0,0,0,.3); }
 
   /* Reverso */
   .reverso { background: radial-gradient(ellipse at 50% 30%, #1d3d9a 0%, #0c2468 45%, #06164a 100%); color: #fff; }
@@ -149,8 +134,6 @@
   .reverso .lema { margin-top: 8px; font-size: 18px; }
   .mision-tit {
     margin-top: 22px; padding: 8px 40px; font-weight: 900; font-size: 21px;
-    background: linear-gradient(180deg, #ff2a33, var(--rojo-osc));
-    clip-path: polygon(0 0, 100% 0, 94% 100%, 6% 100%);
   }
   .mision { margin: 16px 26px 0; text-align: center; font-size: 15.5px; font-weight: 500; line-height: 1.45; white-space: pre-line; }
   .valores { display: flex; justify-content: space-between; width: 410px; margin-top: 24px; }
@@ -159,8 +142,7 @@
   .valor .circ svg { width: 40px; height: 40px; fill: #fff; }
   .frase { margin-top: 26px; text-align: center; font-style: italic; font-weight: 700; font-size: 25px; line-height: 1.2; transform: rotate(-7deg); }
   .frase .subraya { display: block; height: 4px; width: 270px; margin: 4px auto 0; background: var(--rojo); border-radius: 50%; }
-  .fondo-rev { position: absolute; left: 0; right: 0; bottom: 140px; height: 300px; z-index: 1; background-size: cover; background-position: center; opacity: .45;
-    -webkit-mask-image: linear-gradient(transparent, #000 35%, #000 75%, transparent); mask-image: linear-gradient(transparent, #000 35%, #000 75%, transparent); }
+  .fondo-rev { position: absolute; left: 0; right: 0; top: 640px; height: 290px; z-index: 1; background-size: 100% 100%, cover; background-position: center; background-repeat: no-repeat; }
   .redes { position: absolute; bottom: 150px; right: 26px; z-index: 3; text-align: center; }
   .redes .iconos { display: flex; gap: 6px; justify-content: center; }
   .redes .iconos span { width: 34px; height: 34px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; }
@@ -219,7 +201,7 @@
       <label>Título <input type="text" data-k="misionTit" value="NUESTRA MISIÓN"></label>
       <label>Texto de la misión <textarea data-k="mision">Somos una asociación que agrupa a comunicadores digitales comprometidos con la verdad, la ética y el servicio a la sociedad, promoviendo una prensa libre, responsable y al servicio de la gente.</textarea></label>
       <label>Frase <input type="text" data-k="frase" value="La prensa digital también construye país"></label>
-      <label>Imagen de fondo (cámara, ciudad…) <input type="file" accept="image/*" id="inFondo"></label>
+      <label>Imagen de fondo propia (opcional, reemplaza la ilustración) <input type="file" accept="image/*" id="inFondo"></label>
     </fieldset>
 
     <div class="botones">
@@ -236,14 +218,79 @@
     <!-- FRENTE -->
     <div class="escala"><div class="card frente" id="cardFrente">
       <div class="ranura"></div>
-      <svg class="ondas arriba" viewBox="0 0 460 170" preserveAspectRatio="none">
-        <path d="M0 0H460V40C380 20 300 70 200 60C120 52 60 20 0 50Z" fill="#0b2a7a"/>
-        <path d="M0 50C60 20 120 52 200 60C300 70 380 20 460 40V58C380 40 300 92 200 82C120 74 60 44 0 72Z" fill="#e3111b"/>
-        <path d="M0 72C60 44 120 74 200 82C300 92 380 40 460 58V66C380 50 300 104 200 94C120 86 60 58 0 84Z" fill="#fff" opacity=".9"/>
-        <path d="M0 0H130C90 30 40 70 0 120Z" fill="#e3111b"/>
-        <path d="M0 0H70C40 30 20 60 0 80Z" fill="#0b2a7a"/>
+      <svg class="fondo-svg" viewBox="0 0 460 1040" width="460" height="1040" aria-hidden="true">
+        <defs>
+          <linearGradient id="fBase" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".55" stop-color="#f2f5fb"/><stop offset="1" stop-color="#e4eaf6"/></linearGradient>
+          <linearGradient id="fAzul" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2a5ad8"/><stop offset=".5" stop-color="#0b2a7a"/><stop offset="1" stop-color="#061a52"/></linearGradient>
+          <linearGradient id="fRojo" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff4048"/><stop offset=".55" stop-color="#e3111b"/><stop offset="1" stop-color="#a50810"/></linearGradient>
+          <linearGradient id="fBrillo" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".6"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+          <pattern id="fPuntos" width="6" height="6" patternUnits="userSpaceOnUse"><circle cx="3" cy="3" r="1.3" fill="#9fb3dd"/></pattern>
+          <pattern id="fTrama" width="7" height="7" patternUnits="userSpaceOnUse"><circle cx="3.5" cy="3.5" r="1.15" fill="#b3c3e6"/></pattern>
+          <linearGradient id="fFadeMapa" gradientUnits="userSpaceOnUse" x1="0" y1="200" x2="0" y2="470"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".25" stop-color="#fff"/><stop offset=".75" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+          <mask id="fMascaraMapa"><rect width="460" height="1040" fill="url(#fFadeMapa)"/></mask>
+          <radialGradient id="fFadeTrama" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+          <mask id="fMascaraTramaI"><ellipse cx="0" cy="360" rx="120" ry="190" fill="url(#fFadeTrama)"/></mask>
+          <mask id="fMascaraTramaD"><ellipse cx="460" cy="190" rx="150" ry="120" fill="url(#fFadeTrama)"/></mask>
+          <filter id="fSombra" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="1.5" stdDeviation="1.5" flood-color="#000" flood-opacity=".35"/></filter>
+        </defs>
+        <rect width="460" height="1040" fill="url(#fBase)"/>
+
+        <!-- trama de puntos en los costados -->
+        <rect width="460" height="1040" fill="url(#fTrama)" mask="url(#fMascaraTramaI)"/>
+        <rect width="460" height="1040" fill="url(#fTrama)" mask="url(#fMascaraTramaD)"/>
+
+        <!-- mapa del mundo en puntos -->
+        <path d="M-40.7 238.7L-21.3 230.6L4.4 232.2L36.7 225.8L76.9 229.0L101.1 225.8L130.1 238.7L139.8 261.2L123.7 272.5L117.2 277.3L107.6 288.6L99.5 295.1L101.1 304.7L97.9 298.3L85.0 296.7L73.7 303.1L73.7 311.2L81.8 316.0L89.8 311.2L88.2 320.8L96.3 330.5L104.3 332.1L101.1 332.1L91.4 325.7L81.8 320.8L60.8 312.8L52.8 306.3L44.7 295.1L39.9 290.2L30.2 280.6L30.2 267.7L15.7 254.8L-11.7 248.3L-35.8 248.3ZM141.4 248.3L159.1 248.3L197.8 232.2L197.8 216.1L165.6 211.3L125.3 216.1L136.6 225.8L146.2 235.4ZM104.3 332.1L114.0 325.7L130.1 328.9L149.4 343.4L173.6 353.1L168.8 367.6L152.7 386.9L136.6 406.2L125.3 412.7L120.4 433.6L109.2 425.6L112.4 406.2L115.6 374.0L99.5 354.7L101.1 345.0ZM213.9 287.0L215.5 275.7L226.8 274.1L221.9 267.7L233.2 262.8L242.9 258.0L238.1 251.6L246.1 243.5L262.2 232.2L278.3 230.6L297.7 237.1L326.7 235.4L326.7 272.5L307.3 277.3L294.4 278.9L275.1 278.9L268.7 283.8L262.2 280.6L254.2 283.8L249.3 274.1L242.9 274.1L234.8 275.7L230.0 282.2L220.3 287.0ZM202.6 311.2L202.6 322.4L210.7 332.1L221.9 336.9L238.1 336.9L244.5 338.6L246.1 348.2L250.9 364.3L249.3 374.0L259.0 399.8L271.9 399.8L283.2 388.5L286.4 377.2L294.4 369.2L294.4 353.1L299.3 345.0L312.2 327.3L299.3 325.7L289.6 312.8L283.2 295.1L262.2 293.4L246.1 285.4L228.4 287.0L220.3 287.0L213.9 296.7ZM275.1 278.9L288.0 287.0L286.4 293.4L300.9 325.7L315.4 319.2L323.4 309.6L313.8 304.7L321.8 301.5L336.3 304.7L347.6 311.2L355.7 332.1L362.1 320.8L371.8 309.6L378.2 311.2L387.9 319.2L395.9 343.4L399.2 328.9L404.0 320.8L404.0 311.2L420.1 306.3L426.6 296.7L426.6 285.4L433.0 280.6L437.8 288.6L439.4 275.7L458.8 270.9L455.6 259.6L479.7 248.3L491.0 245.1L520.0 238.7L520.0 232.2L471.7 229.0L439.4 227.4L407.2 220.9L358.9 227.4L339.6 232.2L326.7 235.4L326.7 272.5L307.3 277.3L294.4 278.9ZM412.1 380.4L413.7 399.8L426.6 399.8L442.7 394.9L452.3 401.4L465.2 407.8L471.7 404.6L476.5 385.3L465.2 375.6L458.8 362.7L449.1 364.3L439.4 362.7L426.6 372.4ZM221.9 264.4L231.6 262.8L230.0 259.6L225.2 254.8L221.9 251.6L220.3 256.4L225.2 258.0ZM439.4 295.1L455.6 288.6L458.8 280.6L457.2 272.5L453.9 280.6L444.3 290.2ZM300.9 385.3L305.7 385.3L310.6 369.2L308.9 364.3L300.9 372.4ZM383.1 336.9L399.2 354.7L415.3 357.9L423.3 359.5L407.2 349.8L391.1 343.4ZM405.6 343.4L418.5 333.7L421.7 343.4L416.9 351.4L407.2 349.8ZM93.1 309.6L101.1 307.9L110.8 312.8L104.3 312.8ZM110.0 315.2L115.6 312.9L119.8 315.0L117.2 315.7L114.0 316.0Z" fill="url(#fPuntos)" opacity=".8" mask="url(#fMascaraMapa)"/>
+
+        <!-- gráfico de datos tenue -->
+        <g stroke="#b4c4e6" fill="none" stroke-width="1.6" opacity=".9">
+          <polyline points="362,410 378,392 394,399 410,370 426,380 442,346 460,352"/>
+          <g fill="#b4c4e6" stroke="none"><circle cx="378" cy="392" r="2.4"/><circle cx="410" cy="370" r="2.4"/><circle cx="442" cy="346" r="2.4"/></g>
+          <g fill="#d3ddf1" stroke="none"><rect x="368" y="420" width="7" height="30"/><rect x="384" y="410" width="7" height="40"/><rect x="400" y="426" width="7" height="24"/><rect x="416" y="402" width="7" height="48"/><rect x="432" y="390" width="7" height="60"/><rect x="448" y="414" width="7" height="36"/></g>
+        </g>
+
+        <!-- curvas suaves detrás de los datos -->
+        <path d="M-30 700 C120 610 300 660 490 560" stroke="#dde5f4" stroke-width="34" fill="none" opacity=".6"/>
+        <path d="M-30 820 C140 740 320 790 490 700" stroke="#e3e9f6" stroke-width="22" fill="none" opacity=".6"/>
+
+        <!-- cintas superiores -->
+        <path d="M0 0H460V34C400 22 330 52 240 58C150 64 80 40 0 64Z" fill="url(#fAzul)"/>
+        <path d="M60 22C120 40 170 46 240 40C320 34 380 14 440 6" stroke="url(#fBrillo)" stroke-width="3" fill="none"/>
+        <path d="M0 64C80 40 150 64 240 58C330 52 400 22 460 34V50C400 40 330 72 240 76C150 80 80 58 0 84Z" fill="url(#fRojo)"/>
+        <path d="M0 84C80 58 150 80 240 76C330 72 400 40 460 50V56C400 47 330 79 240 83C150 87 80 65 0 91Z" fill="#fff"/>
+        <path d="M0 91C80 65 150 87 240 83C330 79 400 47 460 56V59C400 51 330 83 240 87C150 91 80 70 0 95Z" fill="#1f4fc4" opacity=".55"/>
+        <!-- remolino izquierdo -->
+        <path d="M0 0H105C70 30 35 70 0 118Z" fill="url(#fAzul)"/>
+        <path d="M0 118C35 70 70 30 105 0H122C82 34 44 78 0 132Z" fill="#fff"/>
+        <path d="M0 132C44 78 82 34 122 0H170C112 34 56 86 0 150Z" fill="url(#fRojo)"/>
+        <path d="M6 136C48 86 90 44 140 8" stroke="url(#fBrillo)" stroke-width="2" fill="none"/>
+        <!-- remolino derecho -->
+        <path d="M330 0C380 18 425 44 460 82V112C420 66 372 30 300 0Z" fill="url(#fRojo)"/>
+        <path d="M352 0C394 16 430 38 460 70V82C425 44 380 18 330 0Z" fill="#fff"/>
+        <path d="M460 0V70C430 38 394 16 352 0Z" fill="url(#fAzul)"/>
+
+        <!-- cintas inferiores (bandera ondeando) -->
+        <path d="M0 950C70 978 150 930 240 948C320 964 390 940 460 918V1040H0Z" fill="url(#fRojo)"/>
+        <path d="M0 970C70 998 150 950 240 968C320 984 390 960 460 938V1040H0Z" fill="#fff"/>
+        <path d="M0 982C70 1010 150 962 240 980C320 996 390 972 460 950V1040H0Z" fill="url(#fAzul)"/>
+        <path d="M0 992C70 1020 150 972 240 990" stroke="url(#fBrillo)" stroke-width="3" fill="none"/>
+        <path d="M250 1040C320 1004 395 982 460 968V1040Z" fill="url(#fRojo)"/>
+        <path d="M262 1040C330 1008 400 988 460 976" stroke="#fff" stroke-width="3" fill="none" opacity=".85"/>
+        <path d="M0 1006C40 1018 90 1030 160 1040H0Z" fill="url(#fRojo)"/>
+
+        <!-- bandera dominicana con escudo -->
+        <g transform="translate(204 986)" filter="url(#fSombra)">
+          <rect width="52" height="36" fill="#fff"/>
+          <rect width="22" height="15" fill="#002d62"/><rect x="30" width="22" height="15" fill="#ce1126"/>
+          <rect y="21" width="22" height="15" fill="#ce1126"/><rect x="30" y="21" width="22" height="15" fill="#002d62"/>
+          <path d="M22.6 12.6h6.8v5.4a3.4 3.4 0 0 1-6.8 0z" fill="#002d62"/>
+          <path d="M26 12.6h3.4v2.7h-3.4zM22.6 15.3H26v2.7h-3.4z" fill="#ce1126"/>
+          <rect x="25.5" y="12.6" width="1" height="8.2" fill="#fff"/><rect x="22.6" y="14.8" width="6.8" height="1" fill="#fff"/>
+          <path d="M21.6 13c-1 3.4.3 6.6 3.4 8.2M30.4 13c1 3.4-.3 6.6-3.4 8.2" stroke="#0a7a3a" stroke-width="1.1" fill="none"/>
+          <path d="M22.4 11.4h7.2" stroke="#1f4fc4" stroke-width="1"/>
+          <path d="M22.4 22.6h7.2" stroke="#ce1126" stroke-width="1"/>
+        </g>
       </svg>
-      <div class="mapa"></div>
       <div class="contenido">
         <div class="logo">
           <div class="marca" data-logo></div>
@@ -254,8 +301,8 @@
         </div>
         <div class="lema" data-v="lema" style="max-width:230px"></div>
         <div class="foto" id="foto">Sube una foto</div>
-        <div class="banda-nombre"><div data-v="nombre1"></div><div data-v="nombre2"></div></div>
-        <div class="banda-cargo" data-v="cargo"></div>
+        <div class="banda-nombre" data-forma="3,0 100,0 97,100 0,100" data-colores="#2a5ad8,#0b2a7a,#061a52"><div data-v="nombre1"></div><div data-v="nombre2"></div></div>
+        <div class="banda-cargo" data-v="cargo" data-forma="0,0 100,0 96,100 4,100" data-colores="#ff3a42,#e3111b,#b10a12"></div>
         <div class="datos">
           <div class="dato">
             <div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="7.5" r="4.5"/><path d="M3 21c0-5 4-8 9-8s9 3 9 8z"/></svg></div>
@@ -274,31 +321,169 @@
           <div class="qr" id="qr"></div>
           <div class="codigo"><div class="et">CÓDIGO:</div><div class="num" data-v="codigo"></div></div>
         </div>
-        <div class="pie-frente"><div class="t1" data-v="pie1"></div><div class="t2" data-v="pie2"></div></div>
+        <div class="pie-frente" data-forma="2,0 100,0 98,100 0,100" data-colores="#ff3a42,#e3111b,#b10a12"><div class="t1" data-v="pie1"></div><div class="t2" data-v="pie2"></div></div>
       </div>
-      <svg class="ondas abajo" viewBox="0 0 460 120" preserveAspectRatio="none" style="height:100px">
-        <path d="M0 40C80 70 160 20 260 40C340 56 400 30 460 20V120H0Z" fill="#e3111b"/>
-        <path d="M0 58C80 88 160 38 260 58C340 74 400 48 460 38V120H0Z" fill="#fff"/>
-        <path d="M0 70C80 100 160 50 260 70C340 86 400 60 460 50V120H0Z" fill="#0b2a7a"/>
-        <path d="M300 120C360 90 420 80 460 60V120Z" fill="#e3111b"/>
-      </svg>
-      <svg class="bandera" viewBox="0 0 46 32">
-        <rect width="46" height="32" fill="#fff"/>
-        <rect width="20" height="13" fill="#002d62"/><rect x="26" width="20" height="13" fill="#ce1126"/>
-        <rect y="19" width="20" height="13" fill="#ce1126"/><rect x="26" y="19" width="20" height="13" fill="#002d62"/>
-        <circle cx="23" cy="16" r="3" fill="#0a7a3a"/>
-      </svg>
     </div></div>
 
     <!-- REVERSO -->
     <div class="escala"><div class="card reverso" id="cardReverso">
       <div class="ranura"></div>
-      <svg class="ondas arriba" viewBox="0 0 460 140" preserveAspectRatio="none">
-        <path d="M0 0H200C140 30 70 60 0 110Z" fill="#e3111b"/>
-        <path d="M0 0H120C80 25 40 50 0 75Z" fill="#fff" opacity=".85"/>
-        <path d="M0 0H80C50 20 25 40 0 55Z" fill="#1f4fc4"/>
-        <path d="M460 0H300C360 20 420 40 460 70Z" fill="#e3111b"/>
-        <path d="M460 0H380C410 15 440 25 460 40Z" fill="#fff" opacity=".85"/>
+      <svg class="fondo-svg" viewBox="0 0 460 1040" width="460" height="1040" aria-hidden="true">
+        <defs>
+          <radialGradient id="rBase" cx=".5" cy=".3" r=".85"><stop offset="0" stop-color="#1f42a3"/><stop offset=".45" stop-color="#0c2468"/><stop offset="1" stop-color="#051344"/></radialGradient>
+          <linearGradient id="rAzul" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2a5ad8"/><stop offset=".5" stop-color="#0b2a7a"/><stop offset="1" stop-color="#061a52"/></linearGradient>
+          <linearGradient id="rRojo" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff4048"/><stop offset=".55" stop-color="#e3111b"/><stop offset="1" stop-color="#a50810"/></linearGradient>
+          <linearGradient id="rBrillo" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".6"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+          <pattern id="rPuntos" width="6" height="6" patternUnits="userSpaceOnUse"><circle cx="3" cy="3" r="1.2" fill="#6f90e6"/></pattern>
+          <pattern id="rVentanas" width="6" height="8" patternUnits="userSpaceOnUse"><rect x="1" y="1" width="2.6" height="3.6" fill="#a9c2ff"/></pattern>
+          <pattern id="rMalla" width="3.2" height="3.2" patternUnits="userSpaceOnUse"><path d="M0 0L3.2 3.2M3.2 0L0 3.2" stroke="#8aa6f0" stroke-width=".6"/></pattern>
+          <linearGradient id="rEdificio" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1c3b94"/><stop offset="1" stop-color="#081c58"/></linearGradient>
+          <linearGradient id="rPalacio" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9db5f5"/><stop offset="1" stop-color="#2c4fb0"/></linearGradient>
+          <linearGradient id="rEquipo" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1d3478"/><stop offset="1" stop-color="#030b2a"/></linearGradient>
+          <radialGradient id="rLente" cx=".35" cy=".35" r=".7"><stop offset="0" stop-color="#6f95ff"/><stop offset=".5" stop-color="#1b3a9a"/><stop offset="1" stop-color="#020820"/></radialGradient>
+          <radialGradient id="rSombra" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#051344" stop-opacity=".85"/><stop offset=".6" stop-color="#051344" stop-opacity=".6"/><stop offset="1" stop-color="#051344" stop-opacity="0"/></radialGradient>
+          <radialGradient id="rResplandor" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#7fa2ff" stop-opacity=".45"/><stop offset="1" stop-color="#7fa2ff" stop-opacity="0"/></radialGradient>
+          <linearGradient id="rFadeMapa" gradientUnits="userSpaceOnUse" x1="0" y1="40" x2="0" y2="300"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".3" stop-color="#fff"/><stop offset=".7" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+          <mask id="rMascaraMapa"><rect width="460" height="1040" fill="url(#rFadeMapa)"/></mask>
+          <linearGradient id="rFadeEscena" gradientUnits="userSpaceOnUse" x1="0" y1="650" x2="0" y2="790"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#fff"/></linearGradient>
+          <mask id="rMascaraEscena"><rect width="460" height="1040" fill="url(#rFadeEscena)"/></mask>
+        </defs>
+        <rect width="460" height="1040" fill="url(#rBase)"/>
+
+        <!-- rayos de luz -->
+        <g fill="#fff" opacity=".035">
+          <path d="M230 -40L60 700H150Z"/><path d="M230 -40L280 700H380Z"/><path d="M230 -40L460 520V640Z"/>
+        </g>
+
+        <!-- mapa del mundo en puntos -->
+        <path d="M-22.0 76.0L-4.0 68.5L20.0 70.0L50.0 64.0L87.5 67.0L110.0 64.0L137.0 76.0L146.0 97.0L131.0 107.5L125.0 112.0L116.0 122.5L108.5 128.5L110.0 137.5L107.0 131.5L95.0 130.0L84.5 136.0L84.5 143.5L92.0 148.0L99.5 143.5L98.0 152.5L105.5 161.5L113.0 163.0L110.0 163.0L101.0 157.0L92.0 152.5L72.5 145.0L65.0 139.0L57.5 128.5L53.0 124.0L44.0 115.0L44.0 103.0L30.5 91.0L5.0 85.0L-17.5 85.0ZM147.5 85.0L164.0 85.0L200.0 70.0L200.0 55.0L170.0 50.5L132.5 55.0L143.0 64.0L152.0 73.0ZM113.0 163.0L122.0 157.0L137.0 160.0L155.0 173.5L177.5 182.5L173.0 196.0L158.0 214.0L143.0 232.0L132.5 238.0L128.0 257.5L117.5 250.0L120.5 232.0L123.5 202.0L108.5 184.0L110.0 175.0ZM215.0 121.0L216.5 110.5L227.0 109.0L222.5 103.0L233.0 98.5L242.0 94.0L237.5 88.0L245.0 80.5L260.0 70.0L275.0 68.5L293.0 74.5L320.0 73.0L320.0 107.5L302.0 112.0L290.0 113.5L272.0 113.5L266.0 118.0L260.0 115.0L252.5 118.0L248.0 109.0L242.0 109.0L234.5 110.5L230.0 116.5L221.0 121.0ZM204.5 143.5L204.5 154.0L212.0 163.0L222.5 167.5L237.5 167.5L243.5 169.0L245.0 178.0L249.5 193.0L248.0 202.0L257.0 226.0L269.0 226.0L279.5 215.5L282.5 205.0L290.0 197.5L290.0 182.5L294.5 175.0L306.5 158.5L294.5 157.0L285.5 145.0L279.5 128.5L260.0 127.0L245.0 119.5L228.5 121.0L221.0 121.0L215.0 130.0ZM272.0 113.5L284.0 121.0L282.5 127.0L296.0 157.0L309.5 151.0L317.0 142.0L308.0 137.5L315.5 134.5L329.0 137.5L339.5 143.5L347.0 163.0L353.0 152.5L362.0 142.0L368.0 143.5L377.0 151.0L384.5 173.5L387.5 160.0L392.0 152.5L392.0 143.5L407.0 139.0L413.0 130.0L413.0 119.5L419.0 115.0L423.5 122.5L425.0 110.5L443.0 106.0L440.0 95.5L462.5 85.0L473.0 82.0L500.0 76.0L500.0 70.0L455.0 67.0L425.0 65.5L395.0 59.5L350.0 65.5L332.0 70.0L320.0 73.0L320.0 107.5L302.0 112.0L290.0 113.5ZM399.5 208.0L401.0 226.0L413.0 226.0L428.0 221.5L437.0 227.5L449.0 233.5L455.0 230.5L459.5 212.5L449.0 203.5L443.0 191.5L434.0 193.0L425.0 191.5L413.0 200.5ZM222.5 100.0L231.5 98.5L230.0 95.5L225.5 91.0L222.5 88.0L221.0 92.5L225.5 94.0ZM425.0 128.5L440.0 122.5L443.0 115.0L441.5 107.5L438.5 115.0L429.5 124.0ZM296.0 212.5L300.5 212.5L305.0 197.5L303.5 193.0L296.0 200.5ZM372.5 167.5L387.5 184.0L402.5 187.0L410.0 188.5L395.0 179.5L380.0 173.5ZM393.5 173.5L405.5 164.5L408.5 173.5L404.0 181.0L395.0 179.5ZM102.5 142.0L110.0 140.5L119.0 145.0L113.0 145.0ZM118.2 147.2L123.5 145.1L127.4 147.1L125.0 147.7L122.0 148.0Z" fill="url(#rPuntos)" opacity=".5" mask="url(#rMascaraMapa)"/>
+
+        <!-- escena: ciudad, Palacio Nacional, cámara y micrófono -->
+        <g id="escena" mask="url(#rMascaraEscena)">
+          <ellipse cx="380" cy="770" rx="140" ry="90" fill="url(#rResplandor)"/>
+          <ellipse cx="110" cy="860" rx="130" ry="80" fill="url(#rResplandor)"/>
+          <rect x="-4" y="850" width="24" height="55" fill="url(#rEdificio)"/>
+          <rect x="-1" y="855" width="18" height="47" fill="url(#rVentanas)" opacity="0.5"/>
+          <rect x="20" y="857" width="31" height="48" fill="url(#rEdificio)"/>
+          <rect x="23" y="862" width="25" height="40" fill="url(#rVentanas)" opacity="0.5"/>
+          <rect x="55" y="865" width="20" height="40" fill="url(#rEdificio)"/>
+          <rect x="58" y="870" width="14" height="32" fill="url(#rVentanas)" opacity="0.35"/>
+          <rect x="75" y="858" width="21" height="47" fill="url(#rEdificio)"/>
+          <rect x="78" y="863" width="15" height="39" fill="url(#rVentanas)" opacity="0.65"/>
+          <rect x="100" y="841" width="17" height="64" fill="url(#rEdificio)"/>
+          <rect x="103" y="846" width="11" height="56" fill="url(#rVentanas)" opacity="0.65"/>
+          <rect x="117" y="795" width="32" height="110" fill="url(#rEdificio)"/>
+          <rect x="120" y="800" width="26" height="102" fill="url(#rVentanas)" opacity="0.5"/>
+          <rect x="132" y="781" width="2" height="14" fill="#2a4aa8"/>
+          <rect x="150" y="798" width="15" height="107" fill="url(#rEdificio)"/>
+          <rect x="153" y="803" width="9" height="99" fill="url(#rVentanas)" opacity="0.35"/>
+          <rect x="166" y="854" width="31" height="51" fill="url(#rEdificio)"/>
+          <rect x="169" y="859" width="25" height="43" fill="url(#rVentanas)" opacity="0.65"/>
+          <rect x="198" y="795" width="17" height="110" fill="url(#rEdificio)"/>
+          <rect x="201" y="800" width="11" height="102" fill="url(#rVentanas)" opacity="0.65"/>
+          <rect x="217" y="799" width="17" height="106" fill="url(#rEdificio)"/>
+          <rect x="220" y="804" width="11" height="98" fill="url(#rVentanas)" opacity="0.65"/>
+          <rect x="224" y="785" width="2" height="14" fill="#2a4aa8"/>
+          <rect x="234" y="806" width="20" height="99" fill="url(#rEdificio)"/>
+          <rect x="237" y="811" width="14" height="91" fill="url(#rVentanas)" opacity="0.65"/>
+          <rect x="256" y="795" width="28" height="110" fill="url(#rEdificio)"/>
+          <rect x="259" y="800" width="22" height="102" fill="url(#rVentanas)" opacity="0.5"/>
+          <rect x="285" y="780" width="19" height="125" fill="url(#rEdificio)"/>
+          <rect x="288" y="785" width="13" height="117" fill="url(#rVentanas)" opacity="0.35"/>
+          <rect x="293" y="766" width="2" height="14" fill="#2a4aa8"/>
+          <rect x="306" y="854" width="30" height="51" fill="url(#rEdificio)"/>
+          <rect x="309" y="859" width="24" height="43" fill="url(#rVentanas)" opacity="0.65"/>
+          <rect x="340" y="843" width="16" height="62" fill="url(#rEdificio)"/>
+          <rect x="343" y="848" width="10" height="54" fill="url(#rVentanas)" opacity="0.5"/>
+          <rect x="347" y="829" width="2" height="14" fill="#2a4aa8"/>
+          <rect x="358" y="849" width="18" height="56" fill="url(#rEdificio)"/>
+          <rect x="361" y="854" width="12" height="48" fill="url(#rVentanas)" opacity="0.35"/>
+          <rect x="376" y="855" width="31" height="50" fill="url(#rEdificio)"/>
+          <rect x="379" y="860" width="25" height="42" fill="url(#rVentanas)" opacity="0.5"/>
+          <rect x="411" y="846" width="29" height="59" fill="url(#rEdificio)"/>
+          <rect x="414" y="851" width="23" height="51" fill="url(#rVentanas)" opacity="0.35"/>
+          <rect x="442" y="871" width="29" height="34" fill="url(#rEdificio)"/>
+          <rect x="445" y="876" width="23" height="26" fill="url(#rVentanas)" opacity="0.35"/>
+          <!-- luces -->
+          <circle cx="331" cy="847" r="14" fill="#cfe0ff" opacity="0.16"/><circle cx="145" cy="883" r="8" fill="#cfe0ff" opacity="0.12"/><circle cx="11" cy="818" r="6" fill="#cfe0ff" opacity="0.09"/><circle cx="312" cy="729" r="8" fill="#cfe0ff" opacity="0.06"/><circle cx="111" cy="896" r="6" fill="#cfe0ff" opacity="0.09"/><circle cx="378" cy="763" r="8" fill="#cfe0ff" opacity="0.16"/><circle cx="446" cy="827" r="3" fill="#cfe0ff" opacity="0.09"/><circle cx="229" cy="802" r="11" fill="#cfe0ff" opacity="0.12"/><circle cx="452" cy="735" r="8" fill="#cfe0ff" opacity="0.12"/><circle cx="361" cy="806" r="6" fill="#cfe0ff" opacity="0.16"/><circle cx="118" cy="738" r="3" fill="#cfe0ff" opacity="0.09"/><circle cx="77" cy="759" r="14" fill="#cfe0ff" opacity="0.09"/><circle cx="6" cy="824" r="11" fill="#cfe0ff" opacity="0.09"/><circle cx="134" cy="772" r="3" fill="#cfe0ff" opacity="0.09"/><circle cx="214" cy="836" r="6" fill="#cfe0ff" opacity="0.12"/><circle cx="64" cy="876" r="11" fill="#cfe0ff" opacity="0.06"/><circle cx="233" cy="899" r="14" fill="#cfe0ff" opacity="0.16"/><circle cx="203" cy="802" r="8" fill="#cfe0ff" opacity="0.06"/><circle cx="246" cy="862" r="8" fill="#cfe0ff" opacity="0.06"/><circle cx="97" cy="717" r="4" fill="#cfe0ff" opacity="0.16"/><circle cx="83" cy="728" r="6" fill="#cfe0ff" opacity="0.06"/><circle cx="52" cy="700" r="11" fill="#cfe0ff" opacity="0.09"/>
+          <!-- Palacio Nacional -->
+          <g fill="url(#rPalacio)" opacity=".75">
+            <rect x="305" y="818" width="160" height="10"/>
+            <rect x="315" y="808" width="140" height="10"/>
+            <rect x="325" y="772" width="120" height="36"/>
+            <rect x="320" y="766" width="130" height="7"/>
+            <polygon points="352,766 385,748 418,766"/>
+            <rect x="366" y="728" width="38" height="22"/>
+            <rect x="362" y="724" width="46" height="5"/>
+            <path d="M364 725A21 27 0 0 1 406 725Z"/>
+            <rect x="381" y="690" width="8" height="12"/>
+            <path d="M379 691A6 6 0 0 1 391 691Z"/>
+            <rect x="384.3" y="674" width="1.4" height="12"/>
+          </g>
+          <g fill="#0c2468" opacity=".45">
+            <rect x="330" y="777" width="4" height="30"/><rect x="342" y="777" width="4" height="30"/><rect x="354" y="777" width="4" height="30"/>
+            <rect x="366" y="777" width="4" height="30"/><rect x="378" y="777" width="4" height="30"/><rect x="390" y="777" width="4" height="30"/>
+            <rect x="402" y="777" width="4" height="30"/><rect x="414" y="777" width="4" height="30"/><rect x="426" y="777" width="4" height="30"/><rect x="438" y="777" width="4" height="30"/>
+            <rect x="371" y="732" width="3" height="16"/><rect x="380" y="732" width="3" height="16"/><rect x="389" y="732" width="3" height="16"/><rect x="398" y="732" width="3" height="16"/>
+            <path d="M372 718A14 18 0 0 1 385 699" stroke="#0c2468" stroke-width="1.2" fill="none"/>
+          </g>
+          <path d="M392 700A16 22 0 0 1 402 716" stroke="#fff" stroke-width="1.6" fill="none" opacity=".5"/>
+          <g fill="#ffe7a8" opacity=".7"><circle cx="360" cy="812" r="1.4"/><circle cx="385" cy="812" r="1.4"/><circle cx="410" cy="812" r="1.4"/></g>
+
+          <!-- cámara de video en trípode -->
+          <g transform="translate(6 770)">
+            <g stroke="url(#rEquipo)" stroke-width="7" stroke-linecap="round">
+              <path d="M98 98L36 230M98 98L162 230M98 98L104 236"/>
+            </g>
+            <g stroke="#4d6fd0" stroke-width="1.2" opacity=".6"><path d="M95 100L33 230M101 100L165 230"/></g>
+            <path d="M84 98L20 116" stroke="#030b2a" stroke-width="5" stroke-linecap="round"/>
+            <rect x="80" y="84" width="36" height="16" rx="3" fill="url(#rEquipo)" stroke="#4d6fd0" stroke-opacity=".6"/>
+            <path d="M62 36V18H130V36" stroke="#0a1848" stroke-width="7" fill="none" stroke-linejoin="round"/>
+            <path d="M62 36V18H130V36" stroke="#4d6fd0" stroke-width="1" fill="none" opacity=".6"/>
+            <rect x="112" y="4" width="66" height="9" rx="4.5" fill="url(#rEquipo)" stroke="#4d6fd0" stroke-opacity=".6"/>
+            <rect x="40" y="34" width="104" height="52" rx="9" fill="url(#rEquipo)" stroke="#5a7de0" stroke-opacity=".7"/>
+            <rect x="20" y="28" width="30" height="22" rx="5" fill="#0a1848" stroke="#5a7de0" stroke-opacity=".6"/>
+            <rect x="14" y="31" width="8" height="16" rx="3" fill="#030b2a"/>
+            <path d="M144 42L186 32V92L144 80Z" fill="#0a1848" stroke="#5a7de0" stroke-opacity=".7"/>
+            <rect x="158" y="38" width="4" height="48" fill="#2a4aa8" opacity=".7"/><rect x="170" y="35" width="4" height="54" fill="#2a4aa8" opacity=".7"/>
+            <ellipse cx="186" cy="62" rx="7" ry="30" fill="url(#rLente)" stroke="#6f90e6" stroke-opacity=".8"/>
+            <ellipse cx="184" cy="52" rx="2" ry="8" fill="#fff" opacity=".35"/>
+            <rect x="58" y="46" width="44" height="26" rx="3" fill="#13296a" stroke="#4d6fd0" stroke-opacity=".5"/>
+            <circle cx="116" cy="50" r="3" fill="#3a5cc4"/><circle cx="126" cy="50" r="3" fill="#3a5cc4"/><circle cx="116" cy="62" r="3" fill="#3a5cc4"/>
+            <circle cx="52" cy="42" r="3" fill="#ff2a33"/>
+          </g>
+
+          <!-- micrófono -->
+          <g transform="translate(150 846)">
+            <path d="M34 34L48 38L20 160L4 156Z" fill="url(#rEquipo)" stroke="#5a7de0" stroke-opacity=".7"/>
+            <path d="M30 32L52 38L50 46L28 40Z" fill="#2a4aa8"/>
+            <circle cx="44" cy="18" r="22" fill="#14285e"/>
+            <circle cx="44" cy="18" r="22" fill="url(#rMalla)"/>
+            <circle cx="44" cy="18" r="22" fill="none" stroke="#8aa6f0" stroke-width="1.4"/>
+            <path d="M30 6A18 18 0 0 1 52 0" stroke="#fff" stroke-width="2" fill="none" opacity=".45"/>
+          </g>
+        </g>
+
+        <!-- sombra suave detrás de las redes sociales -->
+        <ellipse cx="335" cy="862" rx="125" ry="62" fill="url(#rSombra)"/>
+
+        <!-- cintas superiores -->
+        <path d="M0 0H95C60 25 25 55 0 82Z" fill="url(#rAzul)"/>
+        <path d="M0 82C25 55 60 25 95 0H118C78 28 38 62 0 102Z" fill="#fff"/>
+        <path d="M0 102C38 62 78 28 118 0H200C128 30 60 76 0 140Z" fill="url(#rRojo)"/>
+        <path d="M8 118C50 72 100 34 170 6" stroke="url(#rBrillo)" stroke-width="2" fill="none"/>
+        <path d="M290 0C370 26 425 62 460 112V0Z" fill="url(#rRojo)"/>
+        <path d="M352 0C400 16 438 42 460 72V0Z" fill="#fff"/>
+        <path d="M398 0C424 10 446 26 460 44V0Z" fill="#1f4fc4"/>
+        <path d="M300 4C370 30 420 64 452 104" stroke="url(#rBrillo)" stroke-width="2" fill="none"/>
+
+        <!-- cintas inferiores -->
+        <path d="M0 950C100 1000 220 980 320 948C380 930 430 916 460 906V1040H0Z" fill="url(#rRojo)"/>
+        <path d="M0 968C100 1018 220 998 320 966C380 948 430 934 460 924V1040H0Z" fill="#fff"/>
+        <path d="M0 980C100 1030 220 1010 320 978C380 960 430 946 460 936V1040H0Z" fill="url(#rAzul)"/>
+        <path d="M20 994C110 1036 220 1016 320 986" stroke="url(#rBrillo)" stroke-width="3" fill="none"/>
+        <path d="M0 1040V1000C50 1018 100 1032 170 1040Z" fill="url(#rRojo)"/>
+        <path d="M300 1040C360 1012 420 994 460 984V1040Z" fill="url(#rRojo)"/>
       </svg>
       <div class="fondo-rev" id="fondoRev"></div>
       <div class="contenido">
@@ -310,7 +495,7 @@
           </div>
         </div>
         <div class="lema" data-v="lema" style="max-width:300px"></div>
-        <div class="mision-tit" data-v="misionTit"></div>
+        <div class="mision-tit" data-v="misionTit" data-forma="0,0 100,0 94,100 6,100" data-colores="#ff3a42,#e3111b,#b10a12"></div>
         <div class="mision" data-v="mision"></div>
         <div class="valores">
           <div class="valor"><div class="circ"><svg viewBox="0 0 24 24"><path d="M12 2l8 3v6c0 5-3.5 9.5-8 11-4.5-1.5-8-6-8-11V5zm-1.2 13.2l5.7-5.7-1.4-1.4-4.3 4.3-2.1-2.1-1.4 1.4z"/></svg></div>ÉTICA</div>
@@ -331,12 +516,6 @@
         <div class="n1"><span data-v="org1"></span><span data-v="org2"></span></div>
         <div class="n2" data-v="sub"></div>
       </div>
-      <svg class="ondas abajo" viewBox="0 0 460 150" preserveAspectRatio="none">
-        <path d="M0 60C100 110 220 90 320 60C380 42 430 30 460 20V150H0Z" fill="#e3111b"/>
-        <path d="M0 78C100 128 220 108 320 78C380 60 430 48 460 38V150H0Z" fill="#fff"/>
-        <path d="M0 90C100 140 220 120 320 90C380 72 430 60 460 50V150H0Z" fill="#0b2a7a"/>
-        <path d="M0 150V110C40 125 80 140 140 150Z" fill="#e3111b"/>
-      </svg>
     </div></div>
 
   </div>
@@ -375,6 +554,21 @@
     el.append(s1, s2);
   }
 
+  // Dibuja la forma inclinada de cada banda como fondo SVG (sale igual en pantalla, PNG e impresión).
+  // El SVG lleva el tamaño real de la banda para que html2canvas no lo deforme.
+  function pintarFormas() {
+    document.querySelectorAll('[data-forma]').forEach(el => {
+      const w = el.offsetWidth * 3, h = el.offsetHeight * 3;
+      if (!w || !h) return;
+      const col = el.dataset.colores.split(',');
+      const stops = col.map((c, i) => `<stop offset="${i / (col.length - 1)}" stop-color="${c}"/>`).join('');
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 100 100" preserveAspectRatio="none">` +
+        `<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1">${stops}</linearGradient></defs>` +
+        `<polygon points="${el.dataset.forma}" fill="url(#g)"/></svg>`;
+      el.style.background = `url("data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}") center / 100% 100% no-repeat`;
+    });
+  }
+
   let qr;
   function render() {
     const d = datos();
@@ -385,13 +579,17 @@
     });
     const foto = document.getElementById('foto');
     foto.innerHTML = imagenes.foto ? `<img alt="Foto" src="${imagenes.foto}">` : 'Sube una foto';
-    document.getElementById('fondoRev').style.backgroundImage = imagenes.fondo ? `url(${imagenes.fondo})` : 'none';
+    document.getElementById('fondoRev').style.backgroundImage = imagenes.fondo
+      ? `linear-gradient(rgba(12,36,104,1), rgba(12,36,104,.45) 35%, rgba(6,22,74,.45) 70%, rgba(6,22,74,1)), url(${imagenes.fondo})`
+      : 'none';
+    document.getElementById('escena').style.display = imagenes.fondo ? 'none' : '';
 
     const qrBox = document.getElementById('qr');
     qrBox.innerHTML = '';
     if (window.QRCode && d.qr) {
       qr = new QRCode(qrBox, { text: d.qr, width: 200, height: 200, colorDark: '#061a52', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
     }
+    pintarFormas();
     guardar();
   }
 
