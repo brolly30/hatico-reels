@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Carnet Prensa Digital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;0,600;0,700;0,800;0,900;1,600;1,700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+  :root {
+    --azul: #0b2a7a;
+    --azul-osc: #061a52;
+    --azul-claro: #1f4fc4;
+    --rojo: #e3111b;
+    --rojo-osc: #b10a12;
+    --gris: #eef2f8;
+    --tinta: #0d1b3d;
+    --panel: #ffffff;
+    --fondo: #dfe3ea;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Montserrat', Arial, sans-serif;
+    background: var(--fondo);
+    color: var(--tinta);
+  }
+  .app { display: flex; gap: 24px; padding: 20px 16px; align-items: flex-start; flex-wrap: wrap; justify-content: center; }
+
+  /* ---------- Panel de edición ---------- */
+  .editor {
+    width: 360px; max-width: 100%;
+    background: var(--panel); border-radius: 14px; padding: 18px;
+    box-shadow: 0 6px 24px rgba(0,0,0,.08);
+    position: sticky; top: 16px;
+  }
+  .editor h1 { font-size: 18px; margin: 0 0 4px; }
+  .editor p.ayuda { font-size: 12px; margin: 0 0 14px; color: #556; }
+  .editor fieldset { border: 1px solid #dde3ee; border-radius: 10px; margin: 0 0 12px; padding: 10px 12px 4px; }
+  .editor legend { font-size: 12px; font-weight: 800; color: var(--azul); padding: 0 6px; text-transform: uppercase; letter-spacing: .5px; }
+  .editor label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 8px; }
+  .editor input[type=text], .editor textarea {
+    width: 100%; margin-top: 3px; padding: 7px 9px; font: inherit; font-weight: 500; font-size: 13px;
+    border: 1px solid #c9d2e3; border-radius: 7px; background: #fbfcff;
+  }
+  .editor textarea { resize: vertical; min-height: 70px; }
+  .editor input[type=file] { margin-top: 4px; font-size: 12px; width: 100%; }
+  .botones { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+  .botones button {
+    flex: 1 1 140px; border: 0; border-radius: 8px; padding: 10px; cursor: pointer;
+    font: inherit; font-weight: 700; font-size: 13px; color: #fff; background: var(--azul);
+  }
+  .botones button.rojo { background: var(--rojo); }
+  .botones button.gris { background: #6b7590; }
+
+  /* ---------- Carnets ---------- */
+  .vista { display: flex; gap: 24px; flex-wrap: wrap; justify-content: center; }
+  .escala { width: 460px; max-width: 100%; }
+  .card {
+    width: 460px; height: 1040px; position: relative; overflow: hidden;
+    border-radius: 22px; box-shadow: 0 10px 30px rgba(0,0,0,.25);
+    transform-origin: top left;
+  }
+  .ranura {
+    position: absolute; top: 22px; left: 50%; transform: translateX(-50%);
+    width: 96px; height: 18px; border-radius: 9px; background: #c7ccd6;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,.35); z-index: 5;
+  }
+  .ondas { position: absolute; left: 0; width: 100%; z-index: 1; pointer-events: none; }
+  .ondas.arriba { top: 0; }
+  .ondas.abajo { bottom: 0; }
+  .contenido { position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; align-items: center; }
+
+  /* Logo */
+  .logo { display: flex; align-items: center; gap: 6px; }
+  .logo .marca { width: 128px; height: 108px; flex: none; }
+  .logo .marca img { width: 100%; height: 100%; object-fit: contain; }
+  .logo .textos { text-align: center; line-height: 1; }
+  .logo .nombre { font-weight: 900; font-size: 44px; letter-spacing: -1.5px; }
+  .logo .nombre .a { color: var(--rojo); }
+  .logo .nombre .b { color: var(--azul); }
+  .logo .sub { display: flex; align-items: center; gap: 6px; justify-content: center; font-weight: 800; font-size: 21px; color: var(--azul); margin-top: 3px; }
+  .logo .sub::before, .logo .sub::after { content: ""; height: 3px; width: 22px; background: var(--rojo); border-radius: 2px; }
+  .logo .sub .r { color: var(--rojo); }
+  .lema { font-style: italic; font-weight: 700; text-align: center; font-size: 15px; line-height: 1.25; }
+
+  /* Frente */
+  .frente { background: linear-gradient(180deg, #fff 0%, #f3f6fc 55%, #e9eef8 100%); }
+  .frente .contenido { padding-top: 76px; }
+  .frente .lema { color: var(--azul); margin: -6px 0 0 70px; }
+  .mapa {
+    position: absolute; inset: 160px 0 auto 0; height: 380px; z-index: 1; opacity: .55;
+    background-image: radial-gradient(#a9bbe0 1.3px, transparent 1.6px);
+    background-size: 9px 9px;
+    -webkit-mask-image: radial-gradient(ellipse 60% 45% at 30% 50%, #000 40%, transparent 70%), radial-gradient(ellipse 35% 40% at 85% 55%, #000 40%, transparent 70%);
+    mask-image: radial-gradient(ellipse 60% 45% at 30% 50%, #000 40%, transparent 70%), radial-gradient(ellipse 35% 40% at 85% 55%, #000 40%, transparent 70%);
+  }
+  .foto {
+    width: 256px; height: 256px; margin-top: 12px; border-radius: 12px; overflow: hidden;
+    border: 4px solid var(--azul); background: #cfd7e6; box-shadow: 0 4px 12px rgba(0,0,0,.2);
+    display: flex; align-items: center; justify-content: center; color: #7a86a3; font-weight: 700; font-size: 14px;
+  }
+  .foto img { width: 100%; height: 100%; object-fit: cover; }
+  .banda-nombre {
+    margin-top: 10px; width: 404px; padding: 10px 14px 8px; text-align: center;
+    background: linear-gradient(180deg, var(--azul-claro), var(--azul) 60%, var(--azul-osc));
+    color: #fff; font-weight: 900; font-size: 29px; line-height: 1.08; text-transform: uppercase;
+    clip-path: polygon(3% 0, 100% 0, 97% 100%, 0 100%);
+  }
+  .banda-cargo {
+    width: 350px; padding: 7px 10px; text-align: center; margin-top: -2px;
+    background: linear-gradient(180deg, #ff2a33, var(--rojo-osc));
+    color: #fff; font-weight: 800; font-size: 19px; text-transform: uppercase;
+    clip-path: polygon(0 0, 100% 0, 96% 100%, 4% 100%);
+  }
+  .datos { width: 400px; margin-top: 12px; }
+  .dato { display: flex; align-items: center; gap: 14px; padding: 6px 0; border-bottom: 1.5px solid #c6cfdf; }
+  .dato:last-child { border-bottom: 0; }
+  .dato .ico { width: 44px; height: 44px; border-radius: 50%; background: var(--azul); flex: none; display: flex; align-items: center; justify-content: center; }
+  .dato .ico svg { width: 26px; height: 26px; fill: #fff; }
+  .dato .et { font-size: 14px; font-weight: 600; color: var(--tinta); }
+  .dato .val { font-size: 19px; font-weight: 600; color: var(--azul-osc); margin-top: 2px; }
+  .fila-qr { width: 400px; display: flex; align-items: center; gap: 24px; margin-top: 4px; }
+  .qr { width: 110px; height: 110px; background: #fff; padding: 6px; border-radius: 4px; flex: none; }
+  .qr img, .qr canvas { width: 100% !important; height: 100% !important; display: block; }
+  .codigo { flex: 1; }
+  .codigo .et { font-weight: 800; font-size: 17px; margin-left: 6px; }
+  .codigo .num {
+    margin-top: 4px; background: var(--azul-osc); color: #fff; border-radius: 6px;
+    font-weight: 900; font-size: 32px; text-align: center; padding: 4px 0; letter-spacing: 1px;
+  }
+  .pie-frente {
+    margin-top: 10px; width: 410px; padding: 6px 10px; text-align: center; color: #fff; position: relative; z-index: 3;
+    background: linear-gradient(180deg, #ff2a33, var(--rojo-osc));
+    clip-path: polygon(2% 0, 100% 0, 98% 100%, 0 100%);
+  }
+  .pie-frente .t1 { font-weight: 800; font-size: 19px; }
+  .pie-frente .t2 { font-weight: 700; font-size: 13px; letter-spacing: .3px; }
+  .bandera { position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%); width: 46px; height: 32px; z-index: 3; box-shadow: 0 1px 3px rgba(0,0,0,.3); }
+
+  /* Reverso */
+  .reverso { background: radial-gradient(ellipse at 50% 30%, #1d3d9a 0%, #0c2468 45%, #06164a 100%); color: #fff; }
+  .reverso .contenido { padding-top: 92px; }
+  .reverso .logo .nombre .b, .reverso .logo .sub { color: #fff; }
+  .reverso .logo .nombre .a { color: #ff2a33; }
+  .reverso .logo .sub .r { color: #ff4a52; }
+  .reverso .lema { margin-top: 8px; font-size: 18px; }
+  .mision-tit {
+    margin-top: 22px; padding: 8px 40px; font-weight: 900; font-size: 21px;
+    background: linear-gradient(180deg, #ff2a33, var(--rojo-osc));
+    clip-path: polygon(0 0, 100% 0, 94% 100%, 6% 100%);
+  }
+  .mision { margin: 16px 26px 0; text-align: center; font-size: 15.5px; font-weight: 500; line-height: 1.45; white-space: pre-line; }
+  .valores { display: flex; justify-content: space-between; width: 410px; margin-top: 24px; }
+  .valor { width: 96px; text-align: center; font-size: 13px; font-weight: 700; line-height: 1.2; }
+  .valor .circ { width: 76px; height: 76px; margin: 0 auto 10px; border: 2.5px solid #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+  .valor .circ svg { width: 40px; height: 40px; fill: #fff; }
+  .frase { margin-top: 26px; text-align: center; font-style: italic; font-weight: 700; font-size: 25px; line-height: 1.2; transform: rotate(-7deg); }
+  .frase .subraya { display: block; height: 4px; width: 270px; margin: 4px auto 0; background: var(--rojo); border-radius: 50%; }
+  .fondo-rev { position: absolute; left: 0; right: 0; bottom: 140px; height: 300px; z-index: 1; background-size: cover; background-position: center; opacity: .45;
+    -webkit-mask-image: linear-gradient(transparent, #000 35%, #000 75%, transparent); mask-image: linear-gradient(transparent, #000 35%, #000 75%, transparent); }
+  .redes { position: absolute; bottom: 150px; right: 26px; z-index: 3; text-align: center; }
+  .redes .iconos { display: flex; gap: 6px; justify-content: center; }
+  .redes .iconos span { width: 34px; height: 34px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; }
+  .redes .iconos svg { width: 20px; height: 20px; fill: var(--azul-osc); }
+  .redes .n1 { margin-top: 10px; font-weight: 900; font-size: 18px; }
+  .redes .n2 { display: flex; align-items: center; gap: 6px; justify-content: center; font-weight: 600; font-size: 15px; }
+  .redes .n2::before, .redes .n2::after { content: ""; width: 20px; height: 2px; background: var(--rojo); }
+
+  @media (max-width: 520px) {
+    .escala { width: calc(100vw - 32px); }
+  }
+  @media print {
+    @page { margin: 8mm; }
+    body { background: #fff; }
+    .editor { display: none; }
+    .app { padding: 0; }
+    .card { box-shadow: none; transform: none !important; }
+    .escala { width: 460px !important; height: 1040px !important; }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ================= EDITOR ================= -->
+  <form class="editor" id="editor" onsubmit="return false">
+    <h1>Plantilla de carnet</h1>
+    <p class="ayuda">Edita los campos y el carnet se actualiza al instante. Luego descarga el frente y el reverso en PNG o imprímelos.</p>
+
+    <fieldset>
+      <legend>Persona</legend>
+      <label>Foto <input type="file" accept="image/*" id="inFoto"></label>
+      <label>Nombre (línea 1 de la banda) <input type="text" data-k="nombre1" value="JUAN RAFAEL"></label>
+      <label>Nombre (línea 2 de la banda) <input type="text" data-k="nombre2" value="CRUZ PÉREZ"></label>
+      <label>Nombre completo <input type="text" data-k="nombre" value="Juan Rafael Cruz Pérez"></label>
+      <label>Cargo <input type="text" data-k="cargo" value="Periodista y Reportero"></label>
+      <label>Afiliación <input type="text" data-k="afiliacion" value="Prensa Digital"></label>
+      <label>Código <input type="text" data-k="codigo" value="0007"></label>
+      <label>Contenido del QR (enlace o texto) <input type="text" data-k="qr" value="ASOIPREDI - Carnet 0007 - Juan Rafael Cruz Pérez"></label>
+    </fieldset>
+
+    <fieldset>
+      <legend>Organización</legend>
+      <label>Logo (opcional, reemplaza el dibujado) <input type="file" accept="image/*" id="inLogo"></label>
+      <label>Nombre parte roja <input type="text" data-k="org1" value="ASOI"></label>
+      <label>Nombre parte azul <input type="text" data-k="org2" value="PREDI"></label>
+      <label>Subtítulo <input type="text" data-k="sub" value="Prensa Digital"></label>
+      <label>Lema <input type="text" data-k="lema" value="Información que conecta con la verdad"></label>
+      <label>Pie del frente <input type="text" data-k="pie1" value="PRENSA DIGITAL"></label>
+      <label>Valores del pie <input type="text" data-k="pie2" value="VERAZ • OBJETIVA • COMPROMETIDA"></label>
+    </fieldset>
+
+    <fieldset>
+      <legend>Reverso</legend>
+      <label>Título <input type="text" data-k="misionTit" value="NUESTRA MISIÓN"></label>
+      <label>Texto de la misión <textarea data-k="mision">Somos una asociación que agrupa a comunicadores digitales comprometidos con la verdad, la ética y el servicio a la sociedad, promoviendo una prensa libre, responsable y al servicio de la gente.</textarea></label>
+      <label>Frase <input type="text" data-k="frase" value="La prensa digital también construye país"></label>
+      <label>Imagen de fondo (cámara, ciudad…) <input type="file" accept="image/*" id="inFondo"></label>
+    </fieldset>
+
+    <div class="botones">
+      <button type="button" id="btnFrente">⬇ PNG frente</button>
+      <button type="button" id="btnReverso">⬇ PNG reverso</button>
+      <button type="button" class="rojo" id="btnImprimir">🖨 Imprimir</button>
+      <button type="button" class="gris" id="btnReset">Restablecer</button>
+    </div>
+  </form>
+
+  <!-- ================= CARNETS ================= -->
+  <div class="vista">
+
+    <!-- FRENTE -->
+    <div class="escala"><div class="card frente" id="cardFrente">
+      <div class="ranura"></div>
+      <svg class="ondas arriba" viewBox="0 0 460 170" preserveAspectRatio="none">
+        <path d="M0 0H460V40C380 20 300 70 200 60C120 52 60 20 0 50Z" fill="#0b2a7a"/>
+        <path d="M0 50C60 20 120 52 200 60C300 70 380 20 460 40V58C380 40 300 92 200 82C120 74 60 44 0 72Z" fill="#e3111b"/>
+        <path d="M0 72C60 44 120 74 200 82C300 92 380 40 460 58V66C380 50 300 104 200 94C120 86 60 58 0 84Z" fill="#fff" opacity=".9"/>
+        <path d="M0 0H130C90 30 40 70 0 120Z" fill="#e3111b"/>
+        <path d="M0 0H70C40 30 20 60 0 80Z" fill="#0b2a7a"/>
+      </svg>
+      <div class="mapa"></div>
+      <div class="contenido">
+        <div class="logo">
+          <div class="marca" data-logo></div>
+          <div class="textos">
+            <div class="nombre"><span class="a" data-v="org1"></span><span class="b" data-v="org2"></span></div>
+            <div class="sub" data-sub></div>
+          </div>
+        </div>
+        <div class="lema" data-v="lema" style="max-width:230px"></div>
+        <div class="foto" id="foto">Sube una foto</div>
+        <div class="banda-nombre"><div data-v="nombre1"></div><div data-v="nombre2"></div></div>
+        <div class="banda-cargo" data-v="cargo"></div>
+        <div class="datos">
+          <div class="dato">
+            <div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="7.5" r="4.5"/><path d="M3 21c0-5 4-8 9-8s9 3 9 8z"/></svg></div>
+            <div><div class="et">NOMBRE:</div><div class="val" data-v="nombre"></div></div>
+          </div>
+          <div class="dato">
+            <div class="ico"><svg viewBox="0 0 24 24"><path d="M9 4h6a2 2 0 0 1 2 2v1h3a2 2 0 0 1 2 2v4H2V9a2 2 0 0 1 2-2h3V6a2 2 0 0 1 2-2zm0 3h6V6H9zM2 14h8v2h4v-2h8v5a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2z"/></svg></div>
+            <div><div class="et">CARGO:</div><div class="val" data-v="cargo"></div></div>
+          </div>
+          <div class="dato">
+            <div class="ico"><svg viewBox="0 0 24 24"><path d="M4 4h13v14a2 2 0 0 0 2 2H5a3 3 0 0 1-3-3V6a2 2 0 0 1 2-2zm2 3v4h5V7zm7 0v1.5h3V7zm0 3v1.5h3V10zM6 13v1.5h10V13zm0 3v1.5h10V16zM18 8h3v10a2 2 0 0 1-4 0V8z"/></svg></div>
+            <div><div class="et">AFILIACIÓN:</div><div class="val" data-v="afiliacion"></div></div>
+          </div>
+        </div>
+        <div class="fila-qr">
+          <div class="qr" id="qr"></div>
+          <div class="codigo"><div class="et">CÓDIGO:</div><div class="num" data-v="codigo"></div></div>
+        </div>
+        <div class="pie-frente"><div class="t1" data-v="pie1"></div><div class="t2" data-v="pie2"></div></div>
+      </div>
+      <svg class="ondas abajo" viewBox="0 0 460 120" preserveAspectRatio="none" style="height:100px">
+        <path d="M0 40C80 70 160 20 260 40C340 56 400 30 460 20V120H0Z" fill="#e3111b"/>
+        <path d="M0 58C80 88 160 38 260 58C340 74 400 48 460 38V120H0Z" fill="#fff"/>
+        <path d="M0 70C80 100 160 50 260 70C340 86 400 60 460 50V120H0Z" fill="#0b2a7a"/>
+        <path d="M300 120C360 90 420 80 460 60V120Z" fill="#e3111b"/>
+      </svg>
+      <svg class="bandera" viewBox="0 0 46 32">
+        <rect width="46" height="32" fill="#fff"/>
+        <rect width="20" height="13" fill="#002d62"/><rect x="26" width="20" height="13" fill="#ce1126"/>
+        <rect y="19" width="20" height="13" fill="#ce1126"/><rect x="26" y="19" width="20" height="13" fill="#002d62"/>
+        <circle cx="23" cy="16" r="3" fill="#0a7a3a"/>
+      </svg>
+    </div></div>
+
+    <!-- REVERSO -->
+    <div class="escala"><div class="card reverso" id="cardReverso">
+      <div class="ranura"></div>
+      <svg class="ondas arriba" viewBox="0 0 460 140" preserveAspectRatio="none">
+        <path d="M0 0H200C140 30 70 60 0 110Z" fill="#e3111b"/>
+        <path d="M0 0H120C80 25 40 50 0 75Z" fill="#fff" opacity=".85"/>
+        <path d="M0 0H80C50 20 25 40 0 55Z" fill="#1f4fc4"/>
+        <path d="M460 0H300C360 20 420 40 460 70Z" fill="#e3111b"/>
+        <path d="M460 0H380C410 15 440 25 460 40Z" fill="#fff" opacity=".85"/>
+      </svg>
+      <div class="fondo-rev" id="fondoRev"></div>
+      <div class="contenido">
+        <div class="logo">
+          <div class="marca" data-logo></div>
+          <div class="textos">
+            <div class="nombre"><span class="a" data-v="org1"></span><span class="b" data-v="org2"></span></div>
+            <div class="sub" data-sub></div>
+          </div>
+        </div>
+        <div class="lema" data-v="lema" style="max-width:300px"></div>
+        <div class="mision-tit" data-v="misionTit"></div>
+        <div class="mision" data-v="mision"></div>
+        <div class="valores">
+          <div class="valor"><div class="circ"><svg viewBox="0 0 24 24"><path d="M12 2l8 3v6c0 5-3.5 9.5-8 11-4.5-1.5-8-6-8-11V5zm-1.2 13.2l5.7-5.7-1.4-1.4-4.3 4.3-2.1-2.1-1.4 1.4z"/></svg></div>ÉTICA</div>
+          <div class="valor"><div class="circ"><svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="3.2"/><circle cx="5" cy="9" r="2.4"/><circle cx="19" cy="9" r="2.4"/><path d="M6 20c0-4 2.7-7 6-7s6 3 6 7zM0 19c0-3 2-5 4.5-5 .8 0 1.5.2 2 .5C5.5 16 5 17.5 5 19zm24 0c0-3-2-5-4.5-5-.8 0-1.5.2-2 .5 1 1.5 1.5 3 1.5 4.5z"/></svg></div>UNIÓN</div>
+          <div class="valor"><div class="circ"><svg viewBox="0 0 24 24"><path d="M5 2h11l4 4v16H5zm3 5v4h5V7zm0 6v1.5h9V13zm0 3v1.5h9V16zm7-9v1.5h2V7zm0 3v1.5h2V10z"/></svg></div>INFORMACIÓN</div>
+          <div class="valor"><div class="circ"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm6.9 6h-3a15 15 0 0 0-1.3-4 8 8 0 0 1 4.3 4zM12 4c.9 1.2 1.6 2.6 2 4h-4c.4-1.4 1.1-2.8 2-4zM4.3 14a8 8 0 0 1 0-4h3.4a16 16 0 0 0 0 4zm.8 2h3a15 15 0 0 0 1.3 4 8 8 0 0 1-4.3-4zm3-8h-3a8 8 0 0 1 4.3-4 15 15 0 0 0-1.3 4zM12 20c-.9-1.2-1.6-2.6-2-4h4c-.4 1.4-1.1 2.8-2 4zm2.3-6H9.7a14 14 0 0 1 0-4h4.6a14 14 0 0 1 0 4zm.3 6a15 15 0 0 0 1.3-4h3a8 8 0 0 1-4.3 4zm1.7-6a16 16 0 0 0 0-4h3.4a8 8 0 0 1 0 4z"/></svg></div>IMPACTO SOCIAL</div>
+        </div>
+        <div class="frase"><span data-v="frase"></span><span class="subraya"></span></div>
+      </div>
+      <div class="redes">
+        <div class="iconos">
+          <span><svg viewBox="0 0 24 24"><path d="M14 8V6.5c0-.8.2-1.3 1.4-1.3H17V2h-2.6C11.3 2 10.4 3.8 10.4 6.4V8H8v3.2h2.4V22H14V11.2h2.7L17 8z"/></svg></span>
+          <span><svg viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3zm5 3.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9zm0 2a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM17.5 5.2a1.3 1.3 0 1 1 0 2.6 1.3 1.3 0 0 1 0-2.6z"/></svg></span>
+          <span><svg viewBox="0 0 24 24"><path d="M17.8 3h3.1l-6.8 7.7L22 21h-6.2l-4.9-6.4L5.3 21H2.2l7.3-8.3L2 3h6.4l4.4 5.8zm-1.1 16.2h1.7L7.4 4.7H5.6z"/></svg></span>
+          <span><svg viewBox="0 0 24 24"><path d="M23 7.5c-.3-1.3-1.2-2.2-2.4-2.5C18.5 4.5 12 4.5 12 4.5s-6.5 0-8.6.5C2.2 5.3 1.3 6.2 1 7.5.5 9.6.5 12 .5 12s0 2.4.5 4.5c.3 1.3 1.2 2.2 2.4 2.5 2.1.5 8.6.5 8.6.5s6.5 0 8.6-.5c1.2-.3 2.1-1.2 2.4-2.5.5-2.1.5-4.5.5-4.5s0-2.4-.5-4.5zM9.7 15.5v-7l6 3.5z"/></svg></span>
+          <span><svg viewBox="0 0 24 24"><path d="M16.6 2h-3.4v13.4a2.9 2.9 0 1 1-2.1-2.8V9.1a6.3 6.3 0 1 0 5.5 6.3V8.6a8 8 0 0 0 4.4 1.4V6.6A4.5 4.5 0 0 1 16.6 2z"/></svg></span>
+        </div>
+        <div class="n1"><span data-v="org1"></span><span data-v="org2"></span></div>
+        <div class="n2" data-v="sub"></div>
+      </div>
+      <svg class="ondas abajo" viewBox="0 0 460 150" preserveAspectRatio="none">
+        <path d="M0 60C100 110 220 90 320 60C380 42 430 30 460 20V150H0Z" fill="#e3111b"/>
+        <path d="M0 78C100 128 220 108 320 78C380 60 430 48 460 38V150H0Z" fill="#fff"/>
+        <path d="M0 90C100 140 220 120 320 90C380 72 430 60 460 50V150H0Z" fill="#0b2a7a"/>
+        <path d="M0 150V110C40 125 80 140 140 150Z" fill="#e3111b"/>
+      </svg>
+    </div></div>
+
+  </div>
+</div>
+
+<script>
+(function () {
+  const CLAVE = 'carnet-plantilla-v1';
+  const form = document.getElementById('editor');
+  const campos = [...form.querySelectorAll('[data-k]')];
+  const defaults = Object.fromEntries(campos.map(c => [c.dataset.k, c.value]));
+  const imagenes = { foto: null, logo: null, fondo: null };
+
+  // Logo dibujado por defecto (la "A" con periódico y señal)
+  const LOGO_SVG = `<svg viewBox="0 0 128 108" width="100%" height="100%">
+    <path d="M6 100 L56 8 L78 8 L66 34 L40 100 Z" fill="#0b2a7a"/>
+    <path d="M58 64 L72 34 L100 100 L80 100 Z" fill="#1f4fc4"/>
+    <rect x="44" y="40" width="34" height="30" rx="2" fill="#fff" stroke="#0b2a7a" stroke-width="2"/>
+    <rect x="48" y="44" width="11" height="10" fill="#e3111b"/>
+    <rect x="62" y="45" width="12" height="2.4" fill="#0b2a7a"/><rect x="62" y="50" width="12" height="2.4" fill="#0b2a7a"/>
+    <rect x="48" y="57" width="26" height="2.4" fill="#0b2a7a"/><rect x="48" y="62" width="26" height="2.4" fill="#0b2a7a"/>
+    <path d="M0 86 C40 70 80 66 126 74 C90 74 50 82 14 100 Z" fill="#e3111b"/>
+    <path d="M84 22 a10 10 0 0 1 10 10" stroke="#e3111b" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <path d="M84 12 a20 20 0 0 1 20 20" stroke="#e3111b" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <path d="M84 2 a30 30 0 0 1 30 30" stroke="#e3111b" stroke-width="4" fill="none" stroke-linecap="round"/>
+  </svg>`;
+
+  function datos() { return Object.fromEntries(campos.map(c => [c.dataset.k, c.value])); }
+
+  function pintarSub(el, texto) {
+    // Primera palabra en azul/blanco, el resto en rojo (como "Prensa Digital")
+    const partes = texto.trim().split(/\s+/);
+    el.innerHTML = '';
+    const s1 = document.createElement('span'); s1.textContent = partes.shift() || '';
+    const s2 = document.createElement('span'); s2.className = 'r'; s2.textContent = partes.length ? ' ' + partes.join(' ') : '';
+    el.append(s1, s2);
+  }
+
+  let qr;
+  function render() {
+    const d = datos();
+    document.querySelectorAll('[data-v]').forEach(el => { el.textContent = d[el.dataset.v] ?? ''; });
+    document.querySelectorAll('[data-sub]').forEach(el => pintarSub(el, d.sub));
+    document.querySelectorAll('[data-logo]').forEach(el => {
+      el.innerHTML = imagenes.logo ? `<img alt="" src="${imagenes.logo}">` : LOGO_SVG;
+    });
+    const foto = document.getElementById('foto');
+    foto.innerHTML = imagenes.foto ? `<img alt="Foto" src="${imagenes.foto}">` : 'Sube una foto';
+    document.getElementById('fondoRev').style.backgroundImage = imagenes.fondo ? `url(${imagenes.fondo})` : 'none';
+
+    const qrBox = document.getElementById('qr');
+    qrBox.innerHTML = '';
+    if (window.QRCode && d.qr) {
+      qr = new QRCode(qrBox, { text: d.qr, width: 200, height: 200, colorDark: '#061a52', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
+    }
+    guardar();
+  }
+
+  function guardar() {
+    try { localStorage.setItem(CLAVE, JSON.stringify({ d: datos(), img: imagenes })); } catch (e) { /* sin espacio o bloqueado */ }
+  }
+  function cargar() {
+    try {
+      const g = JSON.parse(localStorage.getItem(CLAVE) || 'null');
+      if (!g) return;
+      campos.forEach(c => { if (g.d && c.dataset.k in g.d) c.value = g.d[c.dataset.k]; });
+      Object.assign(imagenes, g.img || {});
+    } catch (e) { /* ignorar */ }
+  }
+
+  function leerImagen(input, clave, maxLado) {
+    input.addEventListener('change', () => {
+      const f = input.files[0]; if (!f) return;
+      const r = new FileReader();
+      r.onload = () => {
+        // Reducir la imagen para que quepa en el almacenamiento del navegador
+        const img = new Image();
+        img.onload = () => {
+          const k = Math.min(1, maxLado / Math.max(img.width, img.height));
+          const c = document.createElement('canvas');
+          c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
+          c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+          imagenes[clave] = c.toDataURL(clave === 'logo' ? 'image/png' : 'image/jpeg', .9);
+          render();
+        };
+        img.src = r.result;
+      };
+      r.readAsDataURL(f);
+    });
+  }
+
+  async function descargar(id, nombre) {
+    if (!window.html2canvas) { alert('No se pudo cargar la herramienta de descarga (revisa tu conexión a internet). Puedes usar "Imprimir" y guardar como PDF.'); return; }
+    const card = document.getElementById(id);
+    const prev = card.style.transform; card.style.transform = 'none';
+    const canvas = await html2canvas(card, { scale: 3, backgroundColor: null, useCORS: true });
+    card.style.transform = prev;
+    const a = document.createElement('a');
+    const cod = (datos().codigo || 'carnet').replace(/[^\w-]+/g, '');
+    a.download = `carnet-${cod}-${nombre}.png`;
+    a.href = canvas.toDataURL('image/png');
+    a.click();
+  }
+
+  // Ajustar el carnet al ancho de pantalla en móviles
+  function escalar() {
+    document.querySelectorAll('.escala').forEach(w => {
+      const card = w.querySelector('.card');
+      const k = Math.min(1, w.clientWidth / 460);
+      card.style.transform = k < 1 ? `scale(${k})` : '';
+      w.style.height = (1040 * k) + 'px';
+    });
+  }
+
+  cargar();
+  campos.forEach(c => c.addEventListener('input', render));
+  leerImagen(document.getElementById('inFoto'), 'foto', 900);
+  leerImagen(document.getElementById('inLogo'), 'logo', 600);
+  leerImagen(document.getElementById('inFondo'), 'fondo', 1200);
+  document.getElementById('btnFrente').onclick = () => descargar('cardFrente', 'frente');
+  document.getElementById('btnReverso').onclick = () => descargar('cardReverso', 'reverso');
+  document.getElementById('btnImprimir').onclick = () => window.print();
+  document.getElementById('btnReset').onclick = () => {
+    if (!confirm('¿Restablecer todos los campos e imágenes?')) return;
+    campos.forEach(c => { c.value = defaults[c.dataset.k]; });
+    imagenes.foto = imagenes.logo = imagenes.fondo = null;
+    form.querySelectorAll('input[type=file]').forEach(i => i.value = '');
+    render();
+  };
+  window.addEventListener('resize', escalar);
+  render();
+  escalar();
+})();
+</script>
+</body>
+</html>
